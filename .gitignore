@@ -1,0 +1,5 @@
+# secrets and generated files: never commit
+token.txt
+extension/config.js
+*.log
+node_modules/
