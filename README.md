@@ -32,6 +32,17 @@ React/Vue pages, custom dropdowns, etc.), screenshots are real, and console/netw
 `setup.bat` is a thin wrapper around [`setup.ps1`](setup.ps1); read it if you want to see exactly what it does.
 Pass `-SkipAutostart`, `-NoBrowser` or `-NoWait` to skip those parts.
 
+### Windows without installing Node (packaged release)
+
+The release zip (if one is attached to this repo's Releases page) contains `cb.exe`, which is just the
+server and CLI from this repo bundled with Node into one file. Unzip it somewhere permanent, double-click
+`setup.bat`, and follow the same steps. Use `cb.exe tabs`, `cb.exe snap`, etc. wherever this README says
+`node cb.js ...`. `cb.exe server` runs the server.
+
+It's unsigned, so SmartScreen may warn, and you can't read an exe the way you can read the source. If that
+bothers you, skip it: run from source, or build it yourself with `node build-exe.js` (Windows, Node 20+;
+it fetches `postject` from npm and writes `dist/chrome-bridge-win-x64.zip`).
+
 ### Manual (any OS)
 
 1. Start the server and leave it running:

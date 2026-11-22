@@ -38,7 +38,9 @@ Write-Host 'This lets local scripts drive your logged-in Chrome. Read the Securi
 # 1. Node ----------------------------------------------------------------------------------------
 Step 1 'Checking for Node.js 18 or newer'
 $node = Get-NodeExe
-if ($node -and (Get-NodeMajor $node) -ge 18) {
+if (Test-Path (Join-Path $dir 'cb.exe')) {
+    Ok 'this is the packaged release (cb.exe), so Node.js is not needed'
+} elseif ($node -and (Get-NodeMajor $node) -ge 18) {
     Ok "found $(& $node --version) at $node"
 } else {
     if ($node) { Info "found Node $(& $node --version), which is too old." } else { Info 'Node.js is not installed.' }
@@ -126,4 +128,5 @@ if ($already) {
 }
 
 Write-Host ''
-Write-Host 'Done. Try:  node cb.js tabs     (README has the rest)' -ForegroundColor White
+$tryCmd = if (Test-Path (Join-Path $dir 'cb.exe')) { 'cb.exe tabs' } else { 'node cb.js tabs' }
+Write-Host "Done. Try:  $tryCmd     (README has the rest)" -ForegroundColor White

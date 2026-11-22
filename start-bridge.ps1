@@ -11,9 +11,16 @@ if (Test-Path $tokenFile) {
     } catch { }
 }
 if ($up) { Write-Host 'bridge already running'; exit 0 }
-$node = (Get-Command node -ErrorAction SilentlyContinue).Source
-if (-not $node) { $node = 'C:\Program Files\nodejs\node.exe' }
-Start-Process -FilePath $node -ArgumentList (Join-Path $dir 'server.js') -WorkingDirectory $dir -WindowStyle Hidden `
+$exe = Join-Path $dir 'cb.exe'
+if (Test-Path $exe) {
+    # packaged release: no Node needed
+    $run = $exe; $runArgs = 'server'
+} else {
+    $run = (Get-Command node -ErrorAction SilentlyContinue).Source
+    if (-not $run) { $run = 'C:\Program Files\nodejs\node.exe' }
+    $runArgs = "`"$(Join-Path $dir 'server.js')`""
+}
+Start-Process -FilePath $run -ArgumentList $runArgs -WorkingDirectory $dir -WindowStyle Hidden `
     -RedirectStandardOutput (Join-Path $dir 'server.log') -RedirectStandardError (Join-Path $dir 'server.err.log')
 Start-Sleep 2
 Write-Host 'bridge started'

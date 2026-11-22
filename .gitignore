@@ -3,3 +3,4 @@ token.txt
 extension/config.js
 *.log
 node_modules/
+dist/

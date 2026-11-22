@@ -4,9 +4,12 @@
 const fs = require('fs');
 const path = require('path');
 
+// Where token.txt and extension/ live: next to the .exe when packaged, otherwise next to this file.
+const APPDIR = (() => { try { if (require('node:sea').isSea()) return path.dirname(process.execPath); } catch { /* not a single-executable build */ } return __dirname; })();
+
 const PORT = Number(process.env.CB_PORT) || 9333;
 let TOKEN = process.env.CB_TOKEN || '';
-if (!TOKEN) { try { TOKEN = fs.readFileSync(path.join(__dirname, 'token.txt'), 'utf8').trim(); } catch { /* none */ } }
+if (!TOKEN) { try { TOKEN = fs.readFileSync(path.join(APPDIR, 'token.txt'), 'utf8').trim(); } catch { /* none */ } }
 
 const HELP = `Chrome Bridge CLI   (node cb.js <command> ...)
 
