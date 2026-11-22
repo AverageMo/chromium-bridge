@@ -20,7 +20,19 @@ React/Vue pages, custom dropdowns, etc.), screenshots are real, and console/netw
 
 ## Install
 
-### Windows (easiest)
+### Windows, one line
+
+In PowerShell:
+
+```powershell
+irm https://raw.githubusercontent.com/mistamo/chromium-bridge/main/install.ps1 | iex
+```
+
+That downloads this repo to `%LOCALAPPDATA%\ChromiumBridge` and runs the guided setup below. Piping a script
+into `iex` means trusting it, so read [`install.ps1`](install.ps1) first (it's short): it only downloads
+this repo's zip from github.com and runs `setup.ps1`. Re-running it updates the files and keeps your token.
+
+### Windows (guided, from a download)
 
 1. Download or clone this repo and double-click **`setup.bat`**.
 2. It checks for Node.js (and offers to install it with winget), optionally sets the server to start when
