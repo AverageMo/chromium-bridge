@@ -25,7 +25,7 @@ React/Vue pages, custom dropdowns, etc.), screenshots are real, and console/netw
 In PowerShell:
 
 ```powershell
-irm https://raw.githubusercontent.com/mistamo/chromium-bridge/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/AverageMo/chromium-bridge/main/install.ps1 | iex
 ```
 
 That downloads this repo to `%LOCALAPPDATA%\ChromiumBridge` and runs the guided setup below. Piping a script

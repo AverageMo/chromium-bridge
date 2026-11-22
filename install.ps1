@@ -1,6 +1,6 @@
 # Chromium Bridge one-line installer for Windows.
 #
-#   irm https://raw.githubusercontent.com/mistamo/chromium-bridge/main/install.ps1 | iex
+#   irm https://raw.githubusercontent.com/AverageMo/chromium-bridge/main/install.ps1 | iex
 #
 # What it does, in full:
 #   1. downloads this repo's current main branch as a zip from github.com (nothing else is fetched)
@@ -15,7 +15,7 @@ $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 try { [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12 } catch { }
 
-$repo = 'mistamo/chromium-bridge'
+$repo = 'AverageMo/chromium-bridge'
 $dest = if ($env:CB_INSTALL_DIR) { $env:CB_INSTALL_DIR } else { Join-Path $env:LOCALAPPDATA 'ChromiumBridge' }
 $tmp = Join-Path ([IO.Path]::GetTempPath()) ('chromium-bridge-' + [Guid]::NewGuid().ToString('N'))
 
