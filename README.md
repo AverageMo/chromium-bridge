@@ -4,6 +4,9 @@ Lets a script or program use your own web browser, already logged in, the way yo
 them, click, type, take screenshots, and read Reddit threads. It works with Chrome, Edge, Brave and other
 Chromium browsers.
 
+It also works well with AI assistants such as Claude: tell one to run these commands and it can browse and
+research on the web using your logins.
+
 > This is a simple, quickly-made tool and it will mostly not be maintained. It's lightly tested and may
 > break when Chrome or Reddit change. Feel free to fork it. Please read [Is it safe?](#is-it-safe) first.
 
