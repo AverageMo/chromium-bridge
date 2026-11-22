@@ -5,7 +5,8 @@ $up = $false
 if (Test-Path $tokenFile) {
     try {
         $t = (Get-Content $tokenFile -Raw).Trim()
-        Invoke-RestMethod -Uri 'http://127.0.0.1:9333/status' -Headers @{ Authorization = "Bearer $t" } -TimeoutSec 2 | Out-Null
+        $port = if ($env:CB_PORT) { $env:CB_PORT } else { '9333' }
+        Invoke-RestMethod -Uri "http://127.0.0.1:$port/status" -Headers @{ Authorization = "Bearer $t" } -TimeoutSec 2 | Out-Null
         $up = $true
     } catch { }
 }

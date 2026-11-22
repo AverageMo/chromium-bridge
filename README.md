@@ -20,6 +20,20 @@ React/Vue pages, custom dropdowns, etc.), screenshots are real, and console/netw
 
 ## Install
 
+### Windows (easiest)
+
+1. Download or clone this repo and double-click **`setup.bat`**.
+2. It checks for Node.js (and offers to install it with winget), optionally sets the server to start when
+   you log in, starts the server, opens `chrome://extensions` and copies the extension folder path to your
+   clipboard.
+3. In Chrome, turn on **Developer mode**, click **Load unpacked**, and pick the `extension` folder. Chrome
+   doesn't let scripts do this step for you. The setup window waits and tells you when the extension connects.
+
+`setup.bat` is a thin wrapper around [`setup.ps1`](setup.ps1); read it if you want to see exactly what it does.
+Pass `-SkipAutostart`, `-NoBrowser` or `-NoWait` to skip those parts.
+
+### Manual (any OS)
+
 1. Start the server and leave it running:
    ```
    node server.js
