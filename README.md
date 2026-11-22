@@ -44,8 +44,16 @@ Reddit searches use your own logged-in session. Keep it light and follow Reddit'
 
 ## Using it with Claude Code
 
-There's no plug-in to install. Claude Code can run terminal commands, so you just tell it where the tool is.
-After installing, paste something like this into the chat (or into your `CLAUDE.md` so it remembers):
+There's a ready-made Claude Code skill. Copy the `skill\chromium-bridge` folder from the install folder
+into `~/.claude/skills/` (on Windows, `C:\Users\<your name>\.claude\skills\`) and Claude will know how to
+use the tool whenever you ask it to research or browse. In PowerShell:
+
+```powershell
+New-Item -ItemType Directory -Force "$HOME\.claude\skills" | Out-Null
+Copy-Item -Recurse -Force "$env:LOCALAPPDATA\ChromiumBridge\skill\chromium-bridge" "$HOME\.claude\skills\"
+```
+
+Or, without the skill, paste something like this into the chat (or into your `CLAUDE.md` so it remembers):
 
 ```
 To browse the web with my real, logged-in browser, use the Chromium Bridge tool. First run
