@@ -48,10 +48,11 @@ There's no plug-in to install. Claude Code can run terminal commands, so you jus
 After installing, paste something like this into the chat (or into your `CLAUDE.md` so it remembers):
 
 ```
-To browse the web with my real, logged-in browser, use the Chromium Bridge tool in
-C:\Users\<your name>\AppData\Local\ChromiumBridge. First run `powershell -File start-bridge.ps1`
-(it does nothing if already running), then use `node cb.js`. Run `node cb.js help` to see the commands.
-For research, `node cb.js research "<question>" --sub <subreddit>` reads Reddit threads.
+To browse the web with my real, logged-in browser, use the Chromium Bridge tool. First run
+powershell -ExecutionPolicy Bypass -File "C:\Users\<your name>\AppData\Local\ChromiumBridge\start-bridge.ps1"
+(it does nothing if already running). Then use it like this, from any folder:
+node "C:\Users\<your name>\AppData\Local\ChromiumBridge\cb.js" help
+For research: node "C:\Users\<your name>\AppData\Local\ChromiumBridge\cb.js" research "<question>" --sub <subreddit>
 ```
 
 Then ask it things like "research the best Black Friday Usenet deals". Other assistants that can run commands
