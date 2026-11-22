@@ -8,10 +8,17 @@
   #status { margin-top: 10px; font-weight: 600; }
   .ok { color: #0a7d2c; } .bad { color: #b3261e; }
   small { color: #555; display: block; margin-top: 8px; }
+  input[type=checkbox] { width: auto; margin-right: 6px; }
+  #modebox { margin-top: 12px; padding: 8px; border: 1px solid #ccc; border-radius: 6px; }
+  #modebox.on { border-color: #c26a00; background: #fff4e5; }
 </style>
 <div id="status">…</div>
 <label>Port <input id="port" type="number" value="9333"></label>
 <label>Token <input id="token" type="password" placeholder="paste contents of token.txt"></label>
 <button id="save">Save</button>
+<div id="modebox">
+  <label><input type="checkbox" id="allow">Allow actions</label>
+  <small id="modenote"></small>
+</div>
 <small>Start the server with <code>node server.js</code>. The token is in <code>token.txt</code> next to it.</small>
 <script src="popup.js"></script>

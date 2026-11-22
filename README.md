@@ -42,6 +42,10 @@ node cb.js help                        see everything else
 
 Reddit searches use your own logged-in session. Keep it light and follow Reddit's rules.
 
+**It starts read-only.** It can open pages, read them, take screenshots and read Reddit, but it can't click,
+type or run code in your pages, so it can't post, buy or delete anything. To let it (for example to fill in a
+form), click the extension's icon and tick **Allow actions**. Untick it when you're done.
+
 ## Using it with Claude Code
 
 There's a ready-made Claude Code skill. Copy the `skill\chromium-bridge` folder from the install folder
@@ -68,8 +72,13 @@ work the same way. Your browser has to be open with the extension loaded.
 
 ## Is it safe?
 
-It gives whatever runs on your computer full control of your browser, including sites you're logged in to,
-so only use it if you're comfortable with that.
+Out of the box, it can only *read* what's in your browser. The switch that lets it click and type is in the
+extension's popup, and only you can flip it: no command, file or script can. With that switched on, whatever
+runs on your computer has full control of your browser, including sites you're logged in to, so only turn it
+on if you're comfortable with that. Even read-only, it can see anything you're logged in to.
+
+This is a safety catch, not a lock against malware: software that already has full access to your computer
+could get around it.
 
 - It only listens on your own computer, and nothing from the internet can reach it.
 - It needs a secret key (`token.txt`) to work. Never share that file. Anything on your PC that can read it

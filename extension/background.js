@@ -21,9 +21,47 @@ let abortCurrent = null;
 
 async function setStatus(status) {
   await chrome.storage.local.set({ status });
+  await paintBadge(status);
+}
+
+async function paintBadge(status) {
+  const { allowActions } = await chrome.storage.local.get('allowActions');
   const ok = status === 'connected';
-  chrome.action.setBadgeText({ text: ok ? 'on' : 'off' });
-  chrome.action.setBadgeBackgroundColor({ color: ok ? '#0a7d2c' : '#b3261e' });
+  // green "on" = read-only; orange "act" = actions are switched on, so scripts can click and type
+  chrome.action.setBadgeText({ text: ok ? (allowActions === true ? 'act' : 'on') : 'off' });
+  chrome.action.setBadgeBackgroundColor({ color: !ok ? '#b3261e' : allowActions === true ? '#c26a00' : '#0a7d2c' });
+}
+chrome.storage.onChanged.addListener(async (ch, area) => {
+  if (area === 'local' && ch.allowActions) paintBadge((await chrome.storage.local.get('status')).status);
+});
+
+// ---------------------------------------------------------------- read-only mode
+// Default: scripts may read (pages, console, network, Reddit) but not click, type, run code in pages or
+// send raw DevTools commands, and may only navigate or close tabs the bridge opened itself.
+// The switch lives in the extension's own storage and only the popup writes it: no command, config file or
+// token can turn it on.
+const NEEDS_ACTIONS = new Set(['click', 'type', 'key', 'select', 'upload', 'dialog', 'eval', 'cdp', 'extreload']);
+const OWN_TABS_ONLY = new Set(['go', 'back', 'forward', 'reload', 'close']);
+
+async function guard(method, p) {
+  const { allowActions } = await chrome.storage.local.get('allowActions');
+  if (allowActions === true) return;
+  if (NEEDS_ACTIONS.has(method)) {
+    throw new Error(`blocked: "${method}" is switched off (read-only mode). Ask the user to turn on "Allow actions" in the Chromium Bridge extension popup.`);
+  }
+  if (OWN_TABS_ONLY.has(method)) {
+    const tabId = await tabOf(p);
+    const { opened = [] } = await chrome.storage.session.get('opened');
+    if (!opened.includes(tabId)) {
+      throw new Error(`blocked: in read-only mode "${method}" only works on tabs the bridge opened itself. Open one with "new <url>", or ask the user to turn on "Allow actions".`);
+    }
+  }
+}
+
+async function markOpened(tabId) {
+  const { opened = [] } = await chrome.storage.session.get('opened');
+  opened.push(tabId);
+  await chrome.storage.session.set({ opened: opened.slice(-200) });
 }
 
 async function loop() {
@@ -60,6 +98,7 @@ async function run(cmd, port, token) {
   try {
     const fn = commands[cmd.method];
     if (!fn) throw new Error('unknown method: ' + cmd.method);
+    await guard(cmd.method, cmd.params || {});
     body = { id: cmd.id, result: await fn(cmd.params || {}) };
   } catch (e) {
     body = { id: cmd.id, error: String((e && e.message) || e) };
@@ -596,6 +635,7 @@ const commands = {
   },
   async new(p) {
     const t = await chrome.tabs.create({ url: p.url || 'about:blank', active: p.active !== false });
+    await markOpened(t.id);
     await setCurrent(t.id);
     if (p.url && p.wait !== false) await waitLoad(t.id);
     return { tabId: t.id };
