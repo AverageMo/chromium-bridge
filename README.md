@@ -1,69 +1,53 @@
 # Chromium Bridge
 
-A small extension, local server and command-line tool that let scripts drive **your real, logged-in
-Chromium browser** (Chrome, Edge, Brave...): list tabs, read pages, click, type, take screenshots, and read
-Reddit threads and search results from the terminal.
+Lets a script or program use your own web browser, already logged in, the way you would: open pages, read
+them, click, type, take screenshots, and read Reddit threads. It works with Chrome, Edge, Brave and other
+Chromium browsers.
 
-> **A very simple, quickly-made tool that will mostly not be maintained.** Lightly tested, may break when
-> Chrome or Reddit change. Issues and PRs are welcome but there's no promise of a reply. Fork it freely.
-> It hands control of your browser to a local process: read [Security](#security) first.
+> This is a simple, quickly-made tool and it will mostly not be maintained. It's lightly tested and may
+> break when Chrome or Reddit change. Feel free to fork it. Please read [Is it safe?](#is-it-safe) first.
 
-## Install
+## Install (Windows)
 
-**Windows, one line** (PowerShell):
+1. Open **PowerShell** and paste this:
 
-```powershell
-irm https://raw.githubusercontent.com/AverageMo/chromium-bridge/main/install.ps1 | iex
-```
+   ```powershell
+   irm https://raw.githubusercontent.com/AverageMo/chromium-bridge/main/install.ps1 | iex
+   ```
 
-It downloads this repo to `%LOCALAPPDATA%\ChromiumBridge` and runs `setup.ps1`, which checks for Node 18+
-(offers to install it), optionally starts the server at logon, starts it, and opens `chrome://extensions`.
-Piping into `iex` means trusting the script, so read [`install.ps1`](install.ps1) first; it's short.
+   It downloads the tool, installs Node.js if you need it (it asks first), and opens your browser's
+   extensions page. You can read [install.ps1](install.ps1) first if you like. It's short.
 
-Then, in the browser (a script can't do this part): turn on **Developer mode**, click **Load unpacked**,
-and pick the `extension` folder. The setup window tells you when it connects.
+2. On the extensions page, turn on **Developer mode** (top right), click **Load unpacked**, and choose the
+   `extension` folder it shows you.
 
-**Any OS, by hand:** run `node server.js`, then load the `extension` folder as above. The badge turns green
-and says `on`; check with `node cb.js status`. If it says `no token set`, paste `token.txt` into the
-extension popup.
+3. Done. The setup window says "connected" when it works.
 
-## Use
+On Mac or Linux: install Node.js, run `node server.js`, then do step 2.
 
-```
-node cb.js new https://example.com     # open a tab and make it current
-node cb.js snap                        # numbered elements: [e3] link "More information..."
-node cb.js click e3
-node cb.js type e7 "hello" --enter
-node cb.js text                        # readable page text
-node cb.js shot page.png
-node cb.js help                        # everything else
-```
+## Using it
 
-### Reddit
-
-Reddit's pages are awkward to scrape, so these read its JSON (or old.reddit.com) using your logged-in session:
+Commands are typed in a terminal from the install folder:
 
 ```
-node cb.js research "jellyfin transcoding" --sub selfhosted --threads 3   # search, then read top threads
-node cb.js reddit r/selfhosted --sort top --t week
-node cb.js reddit "<thread url>" --sort top --max 80
-node cb.js reddit u/someuser
+node cb.js new https://example.com     open a page
+node cb.js text                        read the page
+node cb.js shot page.png               take a screenshot
+node cb.js research "your question" --sub selfhosted     search Reddit and read the top threads
+node cb.js help                        see everything else
 ```
 
-Keep the volume low and follow Reddit's terms. This is personal-use tooling.
+Reddit searches use your own logged-in session. Keep it light and follow Reddit's rules.
 
-## Notes
+## Is it safe?
 
-- Chrome shows a "started debugging this browser" banner on tabs being controlled. It can't be hidden;
-  `node cb.js detach` releases the tab.
-- Not on the Chrome Web Store, and unlikely ever to be: the permissions it needs get strict review.
+It gives whatever runs on your computer full control of your browser, including sites you're logged in to,
+so only use it if you're comfortable with that.
 
-## Security
+- It only listens on your own computer, and nothing from the internet can reach it.
+- It needs a secret key (`token.txt`) to work. Never share that file. Anything on your PC that can read it
+  can control your browser, so stop the tool when you're not using it.
+- It sends nothing anywhere, except to Reddit when you use the Reddit commands.
+- Your browser shows a "started debugging this browser" bar on pages it controls. That's normal.
 
-- The server listens on `127.0.0.1` only and needs a bearer token on every request. Web pages can't call it.
-- `token.txt` (and the generated `extension/config.js`) **grant full control of your logged-in tabs**. Never
-  share or commit them (they're in `.gitignore`). Delete `token.txt` and restart to rotate it.
-- Anything running as your user can read the token. Stop the server when you're not using it.
-- No telemetry. The only network calls are to `127.0.0.1` and, for the Reddit commands, reddit.com.
-
-MIT licence, see [LICENSE](LICENSE). Provided as is.
+MIT licence, provided as is. See [LICENSE](LICENSE).
