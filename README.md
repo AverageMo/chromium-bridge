@@ -42,6 +42,21 @@ node cb.js help                        see everything else
 
 Reddit searches use your own logged-in session. Keep it light and follow Reddit's rules.
 
+## Using it with Claude Code
+
+There's no plug-in to install. Claude Code can run terminal commands, so you just tell it where the tool is.
+After installing, paste something like this into the chat (or into your `CLAUDE.md` so it remembers):
+
+```
+To browse the web with my real, logged-in browser, use the Chromium Bridge tool in
+C:\Users\<your name>\AppData\Local\ChromiumBridge. First run `powershell -File start-bridge.ps1`
+(it does nothing if already running), then use `node cb.js`. Run `node cb.js help` to see the commands.
+For research, `node cb.js research "<question>" --sub <subreddit>` reads Reddit threads.
+```
+
+Then ask it things like "research the best Black Friday Usenet deals". Other assistants that can run commands
+work the same way. Your browser has to be open with the extension loaded.
+
 ## Is it safe?
 
 It gives whatever runs on your computer full control of your browser, including sites you're logged in to,
