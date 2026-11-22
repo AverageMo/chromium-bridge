@@ -1,5 +1,5 @@
 'use strict';
-// Chrome Bridge service worker.
+// Chromium Bridge service worker.
 // Long-polls the local bridge server for commands, runs them against real tabs
 // (chrome.debugger for trusted input / screenshots / CDP, chrome.scripting for DOM reads),
 // and posts results back.

@@ -1,4 +1,4 @@
-# Chrome Bridge guided setup for Windows. Run it by double-clicking setup.bat.
+# Chromium Bridge guided setup for Windows. Run it by double-clicking setup.bat.
 #
 # What it does:
 #   1. makes sure Node.js 18+ is installed (offers to install it with winget)
@@ -32,7 +32,7 @@ function Get-NodeMajor($exe) {
     try { return [int](((& $exe --version) -replace '^v', '').Split('.')[0]) } catch { return 0 }
 }
 
-Write-Host 'Chrome Bridge setup' -ForegroundColor White
+Write-Host 'Chromium Bridge setup' -ForegroundColor White
 Write-Host 'This lets local scripts drive your logged-in Chrome. Read the Security section of the README first if unsure.'
 
 # 1. Node ----------------------------------------------------------------------------------------
@@ -69,7 +69,7 @@ if ($SkipAutostart) {
     $a = Read-Host '      Start the bridge server automatically when you log in to Windows? [Y/n]'
     if ($a -eq '' -or $a -match '^[yY]') {
         & (Join-Path $dir 'install-autostart.ps1') | Out-Null
-        Ok 'logon task "ChromeBridgeServer" registered (remove it with uninstall-autostart.ps1)'
+        Ok 'logon task "ChromiumBridgeServer" registered (remove it with uninstall-autostart.ps1)'
     } else {
         Info "no problem: start it yourself with  powershell -File start-bridge.ps1  (or  node server.js)"
     }

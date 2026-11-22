@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 'use strict';
-// Chrome Bridge server. Zero dependencies.
+// Chromium Bridge server. Zero dependencies.
 //   extension  --long-poll GET /poll, POST /result-->  server  <--POST /cmd--  cb.js / curl
 // Listens on 127.0.0.1 only. Every endpoint needs the bearer token in token.txt.
 
@@ -150,7 +150,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`Chrome Bridge listening on http://${HOST}:${PORT}`);
+  console.log(`Chromium Bridge listening on http://${HOST}:${PORT}`);
   console.log(`Token file: ${tokenFile}`);
 });
 server.on('error', e => { console.error('server error:', e.message); process.exit(1); });

@@ -5,5 +5,5 @@ $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument "-NoProfil
 $trigger = New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME
 $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Minutes 5)
 $principal = New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType Interactive -RunLevel Limited
-Register-ScheduledTask -TaskName 'ChromeBridgeServer' -Action $action -Trigger $trigger -Settings $settings -Principal $principal `
-    -Description 'Starts the Chrome Bridge server at logon' -Force | Select-Object TaskName, State
+Register-ScheduledTask -TaskName 'ChromiumBridgeServer' -Action $action -Trigger $trigger -Settings $settings -Principal $principal `
+    -Description 'Starts the Chromium Bridge server at logon' -Force | Select-Object TaskName, State

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 'use strict';
-// Chrome Bridge CLI. Run `node cb.js help` for usage.
+// Chromium Bridge CLI. Run `node cb.js help` for usage.
 const fs = require('fs');
 const path = require('path');
 
@@ -11,7 +11,7 @@ const PORT = Number(process.env.CB_PORT) || 9333;
 let TOKEN = process.env.CB_TOKEN || '';
 if (!TOKEN) { try { TOKEN = fs.readFileSync(path.join(APPDIR, 'token.txt'), 'utf8').trim(); } catch { /* none */ } }
 
-const HELP = `Chrome Bridge CLI   (node cb.js <command> ...)
+const HELP = `Chromium Bridge CLI   (node cb.js <command> ...)
 
 Global flags: --tab <id>   act on a specific tab (default: last tab used, else the active tab)
               --timeout <ms>

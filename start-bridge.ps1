@@ -1,4 +1,4 @@
-# Starts the Chrome Bridge server hidden if it isn't already answering. Safe to run repeatedly.
+# Starts the Chromium Bridge server hidden if it isn't already answering. Safe to run repeatedly.
 $dir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $tokenFile = Join-Path $dir 'token.txt'
 $up = $false

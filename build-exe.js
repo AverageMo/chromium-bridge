@@ -2,7 +2,7 @@
 'use strict';
 // Builds a single-file Windows executable (cb.exe) containing the server and the CLI, using Node's
 // single-executable-application feature, and packages it with the extension and setup scripts into
-// dist/chrome-bridge-win-x64.zip. Only needed by whoever publishes a release; users of the source don't run this.
+// dist/chromium-bridge-win-x64.zip. Only needed by whoever publishes a release; users of the source don't run this.
 //
 //   node build-exe.js
 //
@@ -15,7 +15,7 @@ const { execFileSync } = require('child_process');
 
 const root = __dirname;
 const dist = path.join(root, 'dist');
-const stage = path.join(dist, 'chrome-bridge-win-x64');
+const stage = path.join(dist, 'chromium-bridge-win-x64');
 const read = f => fs.readFileSync(path.join(root, f), 'utf8').replace(/^#!.*\n/, '');
 const sh = (cmd, args, opts) => execFileSync(cmd, args, { stdio: 'inherit', shell: process.platform === 'win32' && cmd === 'npx', ...opts });
 
@@ -58,6 +58,6 @@ for (const f of fs.readdirSync(path.join(root, 'extension'))) {
 for (const f of ['setup.bat', 'setup.ps1', 'start-bridge.ps1', 'install-autostart.ps1', 'uninstall-autostart.ps1', 'README.md', 'LICENSE']) {
   fs.copyFileSync(path.join(root, f), path.join(stage, f));
 }
-const zip = path.join(dist, 'chrome-bridge-win-x64.zip');
+const zip = path.join(dist, 'chromium-bridge-win-x64.zip');
 execFileSync('powershell', ['-NoProfile', '-Command', `Compress-Archive -Path '${stage}\\*' -DestinationPath '${zip}' -Force`], { stdio: 'inherit' });
 console.log(`\nBuilt ${zip} (${(fs.statSync(zip).size / 1048576).toFixed(1)} MB)`);

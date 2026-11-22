@@ -1,7 +1,7 @@
-# Chrome Bridge
+# Chromium Bridge
 
 A tiny Chrome extension plus a local server and command-line tool that let scripts drive **your real,
-logged-in Chrome**: list tabs, read pages, click, type, take screenshots, read console/network, and read
+logged-in Chrome** (or another Chromium-based browser): list tabs, read pages, click, type, take screenshots, read console/network, and read
 Reddit threads and search results from the terminal.
 
 > **Heads up: this is a very simple, quickly-made tool and it will mostly not be maintained.**
@@ -41,7 +41,7 @@ server and CLI from this repo bundled with Node into one file. Unzip it somewher
 
 It's unsigned, so SmartScreen may warn, and you can't read an exe the way you can read the source. If that
 bothers you, skip it: run from source, or build it yourself with `node build-exe.js` (Windows, Node 20+;
-it fetches `postject` from npm and writes `dist/chrome-bridge-win-x64.zip`).
+it fetches `postject` from npm and writes `dist/chromium-bridge-win-x64.zip`).
 
 ### Manual (any OS)
 
@@ -102,7 +102,7 @@ you are responsible for following Reddit's terms and rate limits. Keep the volum
 
 ## Notes and limits
 
-- While the debugger is attached to a tab Chrome shows "Chrome Bridge started debugging this browser".
+- While the debugger is attached to a tab Chrome shows "Chromium Bridge started debugging this browser".
   That is Chrome's own banner and can't be hidden. `node cb.js detach` releases the tab.
 - Commands act on the last tab the bridge opened/activated/navigated, so the tab you are reading isn't hijacked.
   Use `tabs` to see ids and `--tab <id>` to target one.
