@@ -58,6 +58,20 @@ async function guard(method, p) {
   }
 }
 
+// Tabs the bridge opens go in a window of its own, so they stay out of the user's windows. The window
+// is reused while it's open; if the user closes it, the next tab opens a fresh one. It opens without
+// taking focus, so it doesn't jump in front of what the user is doing.
+async function openTab(url, active = true) {
+  const { bridgeWindow } = await chrome.storage.session.get('bridgeWindow');
+  if (bridgeWindow != null) {
+    const w = await chrome.windows.get(bridgeWindow).catch(() => null);
+    if (w) return chrome.tabs.create({ windowId: bridgeWindow, url, active });
+  }
+  const w = await chrome.windows.create({ url, focused: false, type: 'normal' });
+  await chrome.storage.session.set({ bridgeWindow: w.id });
+  return w.tabs[0];
+}
+
 async function markOpened(tabId) {
   const { opened = [] } = await chrome.storage.session.get('opened');
   opened.push(tabId);
@@ -475,7 +489,7 @@ async function redditFetchJson(url) {
 async function withOldTab(fn) {
   const tabs = await chrome.tabs.query({ url: 'https://old.reddit.com/*' });
   let tab = tabs[0], created = false;
-  if (!tab) { tab = await chrome.tabs.create({ url: 'https://old.reddit.com/', active: false }); created = true; await waitLoad(tab.id, 20000); }
+  if (!tab) { tab = await openTab('https://old.reddit.com/', false); created = true; await waitLoad(tab.id, 20000); }
   try { return await fn(tab.id); } finally { if (created) chrome.tabs.remove(tab.id).catch(() => {}); }
 }
 
@@ -634,7 +648,7 @@ const commands = {
     return tabs.map(t => ({ id: t.id, windowId: t.windowId, active: t.active, current: t.id === cur, title: t.title, url: t.url, audible: !!t.audible }));
   },
   async new(p) {
-    const t = await chrome.tabs.create({ url: p.url || 'about:blank', active: p.active !== false });
+    const t = await openTab(p.url || 'about:blank', p.active !== false);
     await markOpened(t.id);
     await setCurrent(t.id);
     if (p.url && p.wait !== false) await waitLoad(t.id);

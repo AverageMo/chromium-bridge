@@ -40,6 +40,8 @@ node cb.js research "your question" --sub selfhosted     search Reddit and read 
 node cb.js help                        see everything else
 ```
 
+Pages it opens appear in a separate browser window of their own, so your tabs are left alone.
+
 Reddit searches use your own logged-in session. Keep it light and follow Reddit's rules.
 
 **It starts read-only.** It can open pages, read them, take screenshots and read Reddit, but it can't click,

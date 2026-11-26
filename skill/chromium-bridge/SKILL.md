@@ -63,8 +63,9 @@ cb go <url> | back | reload | tabs | close
 cb help                  everything else
 ```
 
-Refs (`e1`, `e2`...) are only valid until the next `snap`; take a new one after the page changes. Commands
-act on the last tab the tool opened, not the tab the user is looking at. Use `cb detach` when finished with
+Refs (`e1`, `e2`...) are only valid until the next `snap`; take a new one after the page changes. Tabs you
+open go in a separate browser window of their own, so the user's windows are left alone. Commands act on the
+last tab the tool opened, not the tab the user is looking at. Use `cb detach` when finished with
 a tab, and `cb close` for tabs you opened.
 
 ## Read-only by default
